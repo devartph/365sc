@@ -3,10 +3,16 @@ terraform {
 
   backend "s3" {
     bucket          = "365sc-terraform-backend"
-    key             = "sandbox/global/backend_init/terraform.tfstate"
+    key             = "sandbox/global/vpc/terraform.tfstate"
     region          = "us-west-2"
 
     dynamodb_table  = "terraform-lock"
     encrypt         = "true"
+  }
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 3.63"
+    }
   }
 }
