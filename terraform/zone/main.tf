@@ -2,9 +2,21 @@ locals {
   domain_name = "test.dimash.cloudns.nz"
 }
 
+####################################################################
+
+# Creating Route53 Zone:
+
+####################################################################
+
 resource "aws_route53_zone" "primary" {
   name = local.domain_name
 }
+
+####################################################################
+
+# Creating ACM Cert and etc:
+
+####################################################################
 
 resource "aws_acm_certificate" "my_domain" {
   domain_name               = local.domain_name

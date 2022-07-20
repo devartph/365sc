@@ -6,6 +6,12 @@ provider "aws" {
   region = var.region
 }
 
+####################################################################
+
+# This module creates the remote state backend and lock table:
+
+####################################################################
+
 module "tf_backend" {
   source = "git::https://github.com/DNXLabs/terraform-aws-backend?ref=2.0.0"
 
