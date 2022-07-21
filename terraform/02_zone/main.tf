@@ -1,5 +1,6 @@
 locals {
   domain_name = "test.dimash.cloudns.nz"
+  alt_name    = ["*.test.dimash.cloudns.nz"]
 }
 
 ####################################################################
@@ -20,6 +21,7 @@ resource "aws_route53_zone" "primary" {
 
 resource "aws_acm_certificate" "my_domain" {
   domain_name               = local.domain_name
+  subject_alternative_names = local.alt_name
   validation_method         = "DNS"
 
   tags = {

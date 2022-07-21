@@ -25,12 +25,31 @@ resource "aws_subnet" "sc365sc-subnet-public-1" {
   }
 }
 
+resource "aws_subnet" "sc365sc-subnet-public-2" {
+  vpc_id = "${aws_vpc.sc365sc-vpc.id}"
+  cidr_block = "10.0.3.0/24"
+  map_public_ip_on_launch = "true"
+  availability_zone = "us-west-2b"
+  tags = {
+    Name = "sc365-subnet-public-2"
+  }
+}
+
 resource "aws_subnet" "sc365sc-subnet-private-1" {
   vpc_id = "${aws_vpc.sc365sc-vpc.id}"
   cidr_block = "10.0.2.0/24"
   availability_zone = "us-west-2b"
   tags = {
     Name = "sc365-subnet-private-1"
+  }
+}
+
+resource "aws_subnet" "sc365sc-subnet-private-2" {
+  vpc_id = "${aws_vpc.sc365sc-vpc.id}"
+  cidr_block = "10.0.4.0/24"
+  availability_zone = "us-west-2a"
+  tags = {
+    Name = "sc365-subnet-private-2"
   }
 }
 
@@ -64,8 +83,18 @@ resource "aws_route_table_association" "sc365sc-crta-public-subnet-1" {
   route_table_id = "${aws_route_table.sc365sc-public-crt.id}"
 }
 
+resource "aws_route_table_association" "sc365sc-crta-public-subnet-2" {
+  subnet_id = "${aws_subnet.sc365sc-subnet-public-2.id}"
+  route_table_id = "${aws_route_table.sc365sc-public-crt.id}"
+}
+
 resource "aws_route_table_association" "sc365sc-crta-private-subnet-1" {
   subnet_id = "${aws_subnet.sc365sc-subnet-private-1.id}"
+  route_table_id = "${aws_route_table.sc365sc-private-crt.id}"
+}
+
+resource "aws_route_table_association" "sc365sc-crta-private-subnet-2" {
+  subnet_id = "${aws_subnet.sc365sc-subnet-private-2.id}"
   route_table_id = "${aws_route_table.sc365sc-private-crt.id}"
 }
 
