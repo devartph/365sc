@@ -26,7 +26,7 @@ resource "aws_lb_target_group" "sample_tg" {
    target_type        = "instance"
    port               = 80
    protocol           = "HTTP"
-   vpc_id             = "vpc-0a492f221d3412d80"
+   vpc_id             = var.vpc_id
    health_check {
       healthy_threshold   = var.health_check["healthy_threshold"]
       interval            = var.health_check["interval"]
@@ -34,6 +34,9 @@ resource "aws_lb_target_group" "sample_tg" {
       timeout             = var.health_check["timeout"]
       path                = var.health_check["path"]
       port                = var.health_check["port"]
+  }
+  tags = {
+    Name = "sc365"
   }
 }
 
@@ -59,7 +62,7 @@ resource "aws_instance" "nginx" {
   ami           = "ami-00f005e395638ae78"
   instance_type = "t3a.nano"
   vpc_security_group_ids = var.security_grp
-  subnet_id       = "subnet-0f8543b50e95a2a55"
+  subnet_id       = var.subnet_nginx
 
   tags = {
     Name = "sc365-alb-external-testing"
@@ -87,7 +90,7 @@ resource "aws_lb_listener" "lb_listner_https" {
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = "arn:aws:acm:us-west-2:780616323728:certificate/9bb2688e-e351-47d2-b515-663383e0bc2d"
+  certificate_arn   = var.certificate_arn_nginx
   default_action {
      type             = "forward"
      target_group_arn = aws_lb_target_group.sample_tg.id
@@ -101,7 +104,7 @@ resource "aws_lb_listener" "lb_listner_https" {
 ####################################################################
 
 resource "aws_route53_record" "my_domain_test" {
-  zone_id         = "Z0628016K380J9ZRCU92"
+  zone_id         = var.zone_id_nginx
   name            = "alb-test"
   type            = "CNAME"
   ttl             = 60

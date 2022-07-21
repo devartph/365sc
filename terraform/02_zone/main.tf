@@ -11,6 +11,9 @@ locals {
 
 resource "aws_route53_zone" "primary" {
   name = local.domain_name
+  tags = {
+    Name = "sc365"
+  }
 }
 
 ####################################################################
