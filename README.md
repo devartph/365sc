@@ -25,6 +25,11 @@
 > `00_global` part use a module to create initial resources(`dynamodb table, s3 bucket and etc`) for Terraform.  
 > Other folders are all about main task.
 
+ALB endpoint: https://alb-test.test.dimash.cloudns.nz/ 
+
+
+
+
 2. AWS API
 >> Main folder is `awsapi`.  
 ```
